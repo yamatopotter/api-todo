@@ -1,21 +1,22 @@
-package com.todo.api.repository;
+package com.todo.api.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name="user")
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name="user")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRepository {
-
+public class UserEntity {
     @Id
+    @GeneratedValue
     private Long id;
     @Column (length=40)
     private String name;
@@ -23,4 +24,6 @@ public class UserRepository {
     private String email;
     @Column (length = 20)
     private String provider;
+    @Column
+    private LocalDateTime created_at;
 }
