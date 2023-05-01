@@ -42,9 +42,9 @@ public class UserService {
     public ResponseEntity<String> hardDeleteUser(Long id){
         if(userRepository.findById(id).isPresent()){
             userRepository.deleteById(id);
-            return ResponseEntity.ok().body("Usuário excluído com sucesso.");
+            return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
+        return ResponseEntity.notFound().build();
     }
 
     public ResponseEntity<Optional<UserEntity>> updateUser(UserEntity user){
