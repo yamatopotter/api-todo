@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-@Entity
+@Entity(name="user")
 @Table(name="user")
 @Data
 @Builder
@@ -15,14 +15,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UserEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     @Column (length=40)
     private String name;
     @Column (length = 150)
     private String email;
-    @Column (length = 20)
+    @Column(length=32)
+    private String password;
+    @Column (length = 3)
     private String provider;
-    @Column
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime created_at;
 }

@@ -21,8 +21,7 @@ public class TaskService{
     }
 
     public ResponseEntity<Optional<TaskEntity>> getTask(Long id){
-        Optional<TaskEntity> task;
-        task = taskRepository.findById(id);
+        Optional<TaskEntity> task = taskRepository.findById(id);
 
         if(task.isPresent()){
             return new ResponseEntity<>(task, HttpStatus.OK);
@@ -32,7 +31,7 @@ public class TaskService{
 
     public ResponseEntity<TaskEntity> addTask(TaskEntity task){
         if(task != null){
-            return new ResponseEntity<TaskEntity>(taskRepository.saveAndFlush(task), HttpStatus.CREATED);
+            return new ResponseEntity<>(taskRepository.saveAndFlush(task), HttpStatus.CREATED);
         }
         return ResponseEntity.notFound().build();
     }

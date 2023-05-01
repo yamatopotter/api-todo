@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +16,8 @@ public class UserService {
     @Autowired
     private IUserRepository userRepository;
 
-    public List<UserEntity> listUsers(){
-        return userRepository.findAll();
+    public ResponseEntity<Optional<List<UserEntity>>> listUsers(){
+        return  ResponseEntity.ok(Optional.of(userRepository.findAll()));
     }
 
     public ResponseEntity<Optional<UserEntity>> getUser(Long id){
@@ -28,11 +29,14 @@ public class UserService {
         return ResponseEntity.notFound().build();
     }
 
-    public ResponseEntity<UserEntity> addUser(UserEntity user){
+    public ResponseEntity<Optional<UserEntity>> addUser(UserEntity user){
         if(user != null){
-            return new ResponseEntity<UserEntity>(userRepository.saveAndFlush(user), HttpStatus.CREATED);
+            if(user.getCreated_at() == null){
+                user.setCreated_at(LocalDateTime.now());
+            }
+            return new ResponseEntity<>(Optional.of(userRepository.saveAndFlush(user)), HttpStatus.CREATED);
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.badRequest().build();
     }
 
     public ResponseEntity<String> hardDeleteUser(Long id){
