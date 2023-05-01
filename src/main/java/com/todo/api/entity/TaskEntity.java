@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @Builder
-public class TaskEntitiy {
+public class TaskEntity {
     @Id
     @GeneratedValue
     private Long id;

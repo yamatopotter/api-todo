@@ -3,23 +3,21 @@ package com.todo.api.controller;
 import com.todo.api.entity.TaskEntitiy;
 import com.todo.api.repository.ITaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/task")
 public class TaskController {
-
     @Autowired
     private ITaskRepository taskRepository;
 
     @PostMapping
-    public @ResponseBody TaskEntitiy addNewTask(@RequestParam Long id_user, @RequestParam String simple_description, @RequestParam String long_description, @RequestParam Integer task_order){
+    public ResponseEntity<Optional<TaskEntitiy>> addNewTask(@ResponseBody ){
         TaskEntitiy t = new TaskEntitiy();
         t.setId_user(id_user);
         t.setSimple_description(simple_description);

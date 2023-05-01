@@ -1,7 +1,7 @@
 package com.todo.api.repository;
 
-import com.todo.api.entity.TaskEntitiy;
+import com.todo.api.entity.TaskEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ITaskRepository extends JpaRepository<TaskEntitiy, Long> {
+public interface ITaskRepository extends JpaRepository<TaskEntity, Long> {
 }
