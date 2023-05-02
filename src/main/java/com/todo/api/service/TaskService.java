@@ -16,8 +16,8 @@ public class TaskService{
     @Autowired
     private ITaskRepository taskRepository;
 
-    public List<TaskEntity> listTasks(){
-        return taskRepository.findAll();
+    public ResponseEntity<List<TaskEntity>> listTasks(){
+        return new ResponseEntity(taskRepository.findAll(), HttpStatus.OK);
     }
 
     public ResponseEntity<Optional<TaskEntity>> getTask(Long id){
@@ -41,13 +41,13 @@ public class TaskService{
             taskRepository.deleteById(id);
             return ResponseEntity.ok().body("Tarefa excluída com sucesso.");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa não encontrada.");
+        return ResponseEntity.notFound().build();
     }
 
-    public TaskEntity updateTask(TaskEntity task){
+    public ResponseEntity<Optional<TaskEntity>> updateTask(TaskEntity task){
         if(task != null && taskRepository.findById(task.getId()).isPresent()) {
-            return taskRepository.saveAndFlush(task);
+            return new ResponseEntity<>(Optional.of(taskRepository.saveAndFlush(task)), HttpStatus.OK);
         }
-        return new TaskEntity();
+        return ResponseEntity.badRequest().build();
     }
 }

@@ -1,9 +1,7 @@
 package com.todo.api.service;
 
 import com.todo.api.entity.AlertEntity;
-import com.todo.api.entity.UserEntity;
 import com.todo.api.repository.IAlertRepository;
-import com.todo.api.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +13,8 @@ public class AlertService {
     @Autowired
     private IAlertRepository alertRepository;
 
-    public List<AlertEntity> listAlerts(){
-        return alertRepository.findAll();
+    public ResponseEntity listAlerts(){
+        return new ResponseEntity<>(alertRepository.findAll(), HttpStatus.OK);
     }
 
     public ResponseEntity<Optional<AlertEntity>> getAlert(Long id){
