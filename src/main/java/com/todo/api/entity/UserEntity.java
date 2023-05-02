@@ -25,6 +25,7 @@ public class UserEntity {
     private String password;
     @Column (length = 3)
     private String provider;
-    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime created_at;
 }

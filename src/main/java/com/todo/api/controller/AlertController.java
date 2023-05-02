@@ -45,5 +45,5 @@ public class AlertController {
     public ResponseEntity deleteAlert(@PathVariable Long id){
         return alertService.hardDeleteAlert(id);
     }
-}
+
 }

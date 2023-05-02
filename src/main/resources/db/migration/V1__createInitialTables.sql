@@ -10,7 +10,8 @@ CREATE TABLE user (
 CREATE TABLE task(
     id int primary key not null AUTO_INCREMENT,
     id_user int not null,
-    created_at timestamp,
+    id_alert int null,
+    created_at timestamp default CURRENT_TIMESTAMP,
     simple_description varchar(150),
     long_description text,
     task_order int not null,
@@ -20,7 +21,6 @@ CREATE TABLE task(
 
 CREATE TABLE alert(
     id int primary key not null AUTO_INCREMENT,
-    id_task int not null,
     start_date datetime not null,
     end_date datetime not null,
     deleted boolean not null

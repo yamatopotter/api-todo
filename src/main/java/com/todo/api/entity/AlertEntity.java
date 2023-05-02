@@ -1,9 +1,6 @@
 package com.todo.api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +16,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AlertEntity {
     @Id
-    @GeneratedValue
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    private Long id_task;
+    @OneToOne(mappedBy = "alert")
+    private TaskEntity task;
+    @Column
     private LocalDateTime start_date;
+    @Column
     private LocalDateTime end_date;
+    @Column
     private Boolean deleted;
 }
