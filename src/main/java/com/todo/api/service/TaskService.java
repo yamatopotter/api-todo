@@ -1,5 +1,6 @@
 package com.todo.api.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.todo.api.entity.TaskEntity;
 import com.todo.api.repository.ITaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;

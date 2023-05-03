@@ -16,11 +16,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AlertEntity {
     @Id
-    @Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(mappedBy = "alert")
-    private TaskEntity task;
     @Column
     private LocalDateTime start_date;
     @Column

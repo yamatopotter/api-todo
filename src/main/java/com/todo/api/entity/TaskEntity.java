@@ -18,9 +18,10 @@ public class TaskEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private Long id_user;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private UserEntity user;
+    @OneToOne
     @JoinColumn(name = "id_alert")
     private AlertEntity alert;
     @Column
