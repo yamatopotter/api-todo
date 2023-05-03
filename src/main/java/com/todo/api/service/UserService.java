@@ -1,42 +1,31 @@
 package com.todo.api.service;
 
+import com.todo.api.DTO.UserDTO;
 import com.todo.api.entity.UserEntity;
 import com.todo.api.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
     @Autowired
     private IUserRepository userRepository;
-
-    public ResponseEntity<Optional<List<UserEntity>>> listUsers(){
-        return  ResponseEntity.ok(Optional.of(userRepository.findAll()));
-    }
-
-    public ResponseEntity<Optional<UserEntity>> getUser(Long id){
+    public Optional<UserDTO> getUser(Long id){
         Optional<UserEntity> user = userRepository.findById(id);
 
         if(user.isPresent()){
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return Optional.of(new UserDTO(user.get().getId(), user.get().getName(), user.get().getEmail()));
         }
-        return ResponseEntity.notFound().build();
+        return Optional.of(new UserDTO());
     }
 
-    public ResponseEntity<Optional<UserEntity>> addUser(UserEntity user){
+    public Optional<UserDTO> addUser(UserDTO user){
         if(user != null){
-            if(user.getCreated_at() == null){
-                user.setCreated_at(LocalDateTime.now());
-            }
-            return new ResponseEntity<>(Optional.of(userRepository.saveAndFlush(user)), HttpStatus.CREATED);
+            return Optional.ofNullable(userRepository.saveAndFlush(user.toEntity()).toDto());
         }
-        return ResponseEntity.badRequest().build();
+        return Optional.of(new UserDTO())
     }
 
     public ResponseEntity<String> hardDeleteUser(Long id){

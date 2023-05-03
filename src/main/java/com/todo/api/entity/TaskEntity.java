@@ -1,5 +1,6 @@
 package com.todo.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,14 +15,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TaskEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     private UserEntity user;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_alert")
     private AlertEntity alert;
     @Column

@@ -1,5 +1,7 @@
 package com.todo.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.todo.api.DTO.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -28,4 +31,8 @@ public class UserEntity {
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime created_at;
+
+    public UserDTO toDto(){
+        return new UserDTO(this.id, this.name, this.email);
+    }
 }
