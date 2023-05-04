@@ -1,5 +1,7 @@
 package com.todo.api.service;
 
+import com.todo.api.DTO.AlertDTO;
+import com.todo.api.DTO.AlertDTOMapper;
 import com.todo.api.entity.AlertEntity;
 import com.todo.api.repository.IAlertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,30 +9,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AlertService {
     @Autowired
     private IAlertRepository alertRepository;
+    @Autowired
+    private AlertDTOMapper alertDTOMapper;
 
-    public ResponseEntity listAlerts(){
-        return new ResponseEntity<>(alertRepository.findAll(), HttpStatus.OK);
-    }
-
-    public ResponseEntity<Optional<AlertEntity>> getAlert(Long id){
-        Optional<AlertEntity> alert = alertRepository.findById(id);
+    public Optional<AlertDTO> getAlert(Long id){
+        Optional<AlertDTO> alert = Optional.ofNullable(alertDTOMapper.apply(alertRepository.findById(id)));
 
         if(alert.isPresent()){
-            return new ResponseEntity<>(alert, HttpStatus.OK);
+            return alert;
         }
-        return ResponseEntity.notFound().build();
+        return Optional.empty();
     }
 
-    public ResponseEntity<AlertEntity> addAlert(AlertEntity alert){
+    public Optional<AlertDTO> addAlert(AlertDTO alert){
         if(alert != null){
-            return new ResponseEntity<>(alertRepository.saveAndFlush(alert), HttpStatus.CREATED);
+            return alertDalertRepository.saveAndFlush(alert);
         }
         return ResponseEntity.notFound().build();
     }

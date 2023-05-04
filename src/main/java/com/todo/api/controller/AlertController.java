@@ -1,9 +1,12 @@
 package com.todo.api.controller;
 
+import com.todo.api.DTO.AlertDTO;
+import com.todo.api.DTO.AlertDTOMapper;
 import com.todo.api.entity.AlertEntity;
 import com.todo.api.entity.TaskEntity;
 import com.todo.api.service.AlertService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,18 +16,15 @@ public class AlertController {
 
     @Autowired
     AlertService alertService;
+    @Autowired
+    AlertDTOMapper alertDTOMapper;
 
     @PostMapping
-    public ResponseEntity addAlert(@RequestBody AlertEntity alert){
+    public ResponseEntity addAlert(@RequestBody AlertDTO alert){
         if(alert != null){
-            return alertService.addAlert(alert);
+            return new ResponseEntity<>(alertService.addAlert(alert), HttpStatus.CREATED);
         }
         return ResponseEntity.badRequest().build();
-    }
-
-    @GetMapping
-    public ResponseEntity listAlerts(){
-        return alertService.listAlerts();
     }
 
     @GetMapping("/{id}")
