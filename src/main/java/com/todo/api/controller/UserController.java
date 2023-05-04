@@ -2,6 +2,8 @@ package com.todo.api.controller;
 
 import com.electronwill.nightconfig.core.conversion.Path;
 import com.todo.api.DTO.UserDTO;
+import com.todo.api.DTO.UserRegisterDTO;
+import com.todo.api.DTO.UserUpdateDTO;
 import com.todo.api.entity.UserEntity;
 import com.todo.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity addUser(@RequestBody UserDTO user){
+    public ResponseEntity addUser(@RequestBody UserRegisterDTO user){
         if(user != null){
            return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
         }
@@ -41,16 +43,20 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Optional<UserEntity>> updateUser(@RequestBody UserEntity user){
+    public ResponseEntity updateUser(@RequestBody UserUpdateDTO user){
         if(user != null){
-            return userService.updateUser(user);
+            return ResponseEntity.ok(userService.updateUser(user));
         }
 
         return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> hardDeleteUser(@PathVariable Long id){
-        return userService.hardDeleteUser(id);
+    public ResponseEntity hardDeleteUser(@PathVariable Long id){
+        if(userService.hardDeleteUser(id)){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 }

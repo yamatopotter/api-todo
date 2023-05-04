@@ -31,8 +31,4 @@ public class UserEntity {
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime created_at;
-
-    public UserDTO toDto(){
-        return new UserDTO(this.id, this.name, this.email);
-    }
 }
