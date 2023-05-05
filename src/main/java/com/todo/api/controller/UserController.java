@@ -1,18 +1,13 @@
 package com.todo.api.controller;
 
-import com.electronwill.nightconfig.core.conversion.Path;
 import com.todo.api.DTO.UserDTO;
 import com.todo.api.DTO.UserRegisterDTO;
 import com.todo.api.DTO.UserUpdateDTO;
-import com.todo.api.entity.UserEntity;
 import com.todo.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,7 +21,11 @@ public class UserController {
     @PostMapping
     public ResponseEntity addUser(@RequestBody UserRegisterDTO user){
         if(user != null){
-           return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
+            Optional<UserDTO> newUser = userService.addUser(user);
+
+            if(newUser.isPresent()){
+                return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+            }
         }
         return ResponseEntity.badRequest().build();
     }
@@ -45,7 +44,10 @@ public class UserController {
     @PutMapping
     public ResponseEntity updateUser(@RequestBody UserUpdateDTO user){
         if(user != null){
-            return ResponseEntity.ok(userService.updateUser(user));
+            Optional<UserDTO> updateUser = userService.updateUser(user);
+            if(updateUser.isPresent()){
+                return ResponseEntity.ok(updateUser);
+            }
         }
 
         return ResponseEntity.badRequest().build();

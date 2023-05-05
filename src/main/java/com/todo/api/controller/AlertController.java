@@ -1,14 +1,14 @@
 package com.todo.api.controller;
 
 import com.todo.api.DTO.AlertDTO;
-import com.todo.api.DTO.AlertDTOMapper;
-import com.todo.api.entity.AlertEntity;
-import com.todo.api.entity.TaskEntity;
+import com.todo.api.DTO.AlertRegisterDTO;
 import com.todo.api.service.AlertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/alert")
@@ -16,26 +16,36 @@ public class AlertController {
 
     @Autowired
     AlertService alertService;
-    @Autowired
-    AlertDTOMapper alertDTOMapper;
 
     @PostMapping
-    public ResponseEntity addAlert(@RequestBody AlertDTO alert){
+    public ResponseEntity addAlert(@RequestBody AlertRegisterDTO alert){
         if(alert != null){
-            return new ResponseEntity<>(alertService.addAlert(alert), HttpStatus.CREATED);
+            Optional<AlertDTO> newAlert = alertService.addAlert(alert);
+            if(newAlert.isPresent()){
+                return new ResponseEntity<>(newAlert, HttpStatus.CREATED);
+            }
         }
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getAlert(@PathVariable Long id){
-        return alertService.getAlert(id);
+        Optional<AlertDTO> alert = alertService.getAlert(id);
+        if(alert.isPresent()){
+            return ResponseEntity.ok(alert);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping
-    public ResponseEntity updateAlert(@RequestBody AlertEntity alert){
+    public ResponseEntity updateAlert(@RequestBody AlertDTO alert){
         if(alert != null){
-            return alertService.updateUser(alert);
+            Optional<AlertDTO> updatedAlert = alertService.updateUser(alert);
+
+            if(updatedAlert.isPresent()) {
+                return ResponseEntity.ok(updatedAlert);
+            }
         }
 
         return ResponseEntity.badRequest().build();
@@ -43,7 +53,11 @@ public class AlertController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteAlert(@PathVariable Long id){
-        return alertService.hardDeleteAlert(id);
+        if(alertService.hardDeleteAlert(id)){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
 }
