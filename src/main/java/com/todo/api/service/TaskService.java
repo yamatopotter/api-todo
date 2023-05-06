@@ -46,7 +46,6 @@ public class TaskService{
 
     public Optional<TaskDTO> addTask(TaskRegistryDTO task){
         if(task != null){
-            System.out.println(task);
             Optional<UserEntity> userToTask;
             Optional<AlertEntity> alertToTask;
 

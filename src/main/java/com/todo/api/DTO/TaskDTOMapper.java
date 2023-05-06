@@ -14,14 +14,30 @@ public class TaskDTOMapper implements Function<TaskEntity, TaskDTO> {
 
     @Override
     public TaskDTO apply(TaskEntity task){
-        return new TaskDTO(
-                task.getId(),
-                alertDTOMapper.apply(task.getAlert()),
-                task.getSimple_description(),
-                task.getLong_description(),
-                task.getTask_order(),
-                task.getIs_done(),
-                task.getDeleted()
-        );
+        try{
+            return new TaskDTO(
+                    task.getId(),
+                    alertDTOMapper.apply(task.getAlert()),
+                    task.getSimple_description(),
+                    task.getLong_description(),
+                    task.getTask_order(),
+                    task.getIs_done(),
+                    task.getDeleted()
+            );
+        }
+        catch(Exception e){
+            System.out.println("[INFO] create entity without alert");
+
+            return new TaskDTO(
+                    task.getId(),
+                    null,
+                    task.getSimple_description(),
+                    task.getLong_description(),
+                    task.getTask_order(),
+                    task.getIs_done(),
+                    task.getDeleted()
+            );
+        }
+
     }
 }
