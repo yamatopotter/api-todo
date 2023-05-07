@@ -5,6 +5,8 @@ import com.todo.api.DTO.AlertDTOMapper;
 import com.todo.api.DTO.AlertRegisterDTO;
 import com.todo.api.entity.AlertEntity;
 import com.todo.api.repository.IAlertRepository;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +16,12 @@ import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AlertService {
-    @Autowired
-    private IAlertRepository alertRepository;
-    @Autowired
-    private AlertDTOMapper alertDTOMapper;
+
+    private final IAlertRepository alertRepository;
+
+    private final AlertDTOMapper alertDTOMapper;
 
     public Optional<AlertDTO> getAlert(Long id){
         Optional<AlertDTO> alert;
