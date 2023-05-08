@@ -6,6 +6,7 @@ import com.todo.api.DTO.UserRegisterDTO;
 import com.todo.api.DTO.UserUpdateDTO;
 import com.todo.api.entity.UserEntity;
 import com.todo.api.repository.IUserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserDTOMapper userDTOMapper;
-    @Autowired
-    private IUserRepository userRepository;
+    private final UserDTOMapper userDTOMapper;
+    private final IUserRepository userRepository;
 
     public Optional<UserDTO> getUser(Long id){
       Optional<UserDTO> user;
@@ -39,8 +39,8 @@ public class UserService {
                         user.name(),
                         user.email(),
                         user.password(),
-                        user.provider(),
-                        null
+                        null,
+                        user.role()
                 )
             );
 
@@ -64,8 +64,8 @@ public class UserService {
                     user.name(),
                     user.email(),
                     user.password(),
-                    user.provider(),
-                    null
+                    null,
+                   user.role()
             );
 
            return Optional.of(userDTOMapper.apply(userRepository.saveAndFlush(userToUpdate)));

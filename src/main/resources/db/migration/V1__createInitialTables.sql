@@ -1,10 +1,10 @@
 CREATE TABLE user (
     id int PRIMARY KEY  not null AUTO_INCREMENT,
     name varchar(40) not null,
-    email varchar(150) not null,
-    password varchar(32) not null,
-    provider varchar(3) not null,
-    created_at timestamp default CURRENT_TIMESTAMP
+    email varchar(150) not null unique,
+    password varchar(64) not null,
+    created_at timestamp default CURRENT_TIMESTAMP,
+    role enum ('USER', 'ADMIN')
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE alert(
